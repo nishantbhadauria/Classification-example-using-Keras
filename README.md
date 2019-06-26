@@ -65,6 +65,108 @@ y=heart3[['target']]
   
   https://www.amazon.in/Deep-Learning-Python-Francois-Chollet/dp/1617294438
   
-  we will be building a sequential NN and 
- 
+  We will be building a sequential NN with 3 deep layers , as per my experience for binary classification the best activation is softmax the best optimizer is Adam and for deep layers the best activation is RELU. I have tried RMS Prop as well but it yielded inferior results, binary cross entropy is loss function.
+  
+  I am measuring accurcay over the epochs. You can try out the different combinations of deep layers optimizer and activations and see the results.
+  
+  from sklearn.model_selection import train_test_split
+
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,shuffle=False)
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import Dropout
+## create model
+model = Sequential()
+## get number of columns in training data
+n_cols = x_train.shape[1]
+## 3 dense layers
+model.add(Dense(10, activation='relu', input_shape=(n_cols,)))
+model.add(Dense(10, activation='relu'))
+model.add(Dense(10, activation='relu'))
+## output layer
+model.add(Dense(1, activation='sigmoid', kernel_initializer='random_normal'))
+## running the nn
+
+model.compile(optimizer ='adam',loss='binary_crossentropy', metrics =['accuracy'])
+model.fit(x_train,y_train,batch_size=10,epochs=100)
+eval_model=model.evaluate(x_train, y_train)
+eval_model
+y_pred=model.predict(x_test)
+y_pred =(y_pred>0.5)
+## confusion matrix
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+## r aquare score"""
+from sklearn.metrics import r2_score
+
+r2_score(y_test, y_pred)
+  
+# plotting some cool graphics the accuracy and loss over the epochs
+
+mport matplotlib.pyplot as plt
+
+## Fit the model
+history = model.fit(x_train,y_train,batch_size=10,epochs=100)
+## list all data in history
+print(history.history.keys())
+## summarize history for accuracy
+plt.plot(history.history['acc'])
+plt.title('model accuracy')
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.show()
+# summarize history for loss
+plt.plot(history.history['loss'])
+plt.title('model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.show()
+
+# the droput - for reducing the overfitting 
+
+Please read the theory of drop out from here:
+
+https://medium.com/@amarbudhiraja/https-medium-com-amarbudhiraja-learning-less-to-learn-better-dropout-in-deep-machine-learning-74334da4bfc5
+
+model = Sequential()
+## get number of columns in training data
+n_cols = x_train.shape[1]
+## 3 dense layers
+model.add(Dense(10, activation='relu', input_shape=(n_cols,)))
+model.add(Dropout(0.5))
+model.add(Dense(10, activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(10, activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(1, activation='sigmoid', kernel_initializer='random_normal'))
+model.compile(optimizer ='adam',loss='binary_crossentropy', metrics =['accuracy'])
+model.fit(x_train,y_train,batch_size=10,epochs=100)
+eval_model=model.evaluate(x_train, y_train)
+eval_model
+y_pred=model.predict(x_test)
+y_pred =(y_pred>0.5)
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+history = model.fit(x_train,y_train,batch_size=10,epochs=100)
+## list all data in history
+print(history.history.keys())
+## summarize history for accuracy
+plt.plot(history.history['acc'])
+plt.title('model accuracy')
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.show()
+# summarize history for loss
+plt.plot(history.history['loss'])
+plt.title('model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.show()
+
 
