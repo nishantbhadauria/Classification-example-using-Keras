@@ -37,4 +37,34 @@ import seaborn as sns
 sns.set(style="ticks")
 sns.pairplot(heart_num, hue="target")
 
-# 
+# min max scaling(converting evrything between 0 and 1 ..basic data prep for nn
+We will also do min max scaling to pre process our data so that it fits our model.
+
+from sklearn import preprocessing
+minmax_scale = preprocessing.MinMaxScaler().fit(heart[['age','resting_blood_pressure','cholesterol','st_depression','max_heart_rate_achieved']])
+heart_minMax=minmax_scale.transform(heart[['age','resting_blood_pressure','cholesterol','st_depression','max_heart_rate_achieved']])
+heart_minMax=pd.DataFrame(heart_minMax)
+heart_minMax.columns=['age','resting_blood_pressure','cholesterol','st_depression','max_heart_rate_achieved']
+
+ # APPENDING ORIGINAL AND TRANSFORMed DATASET
+ 
+ heart2=heart[['sex', 'chest_pain_type','fasting_blood_sugar','rest_ecg','exercise_induced_angina','st_slope', 'num_major_vessels', 'thalassemia', 'target']]
+
+heart3 = pd.merge(heart2, heart_minMax, left_index=True, right_index=True)
+"""building the DNN"""
+heart3.columns
+x=heart3[['sex', 'chest_pain_type', 'fasting_blood_sugar', 'rest_ecg',
+       'exercise_induced_angina', 'st_slope', 'num_major_vessels',
+       'thalassemia', 'age', 'resting_blood_pressure', 'cholesterol',
+       'st_depression','max_heart_rate_achieved']]
+y=heart3[['target']]
+       
+       
+ # lets build a basic DNN using keras
+  well all thanks to this beautiful book:
+  
+  https://www.amazon.in/Deep-Learning-Python-Francois-Chollet/dp/1617294438
+  
+  we will be building a sequential NN and 
+ 
+
