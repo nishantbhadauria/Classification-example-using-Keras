@@ -30,7 +30,7 @@ heart.columns=['age', 'sex', 'chest_pain_type', 'resting_blood_pressure', 'chole
  
 heart.corr()
  # Visualization by classes to better understand the factors
- we will use 
+ We will use seaborn library to get beuatiful scatter plot matrix for numeric variables.
  
  heart_num=heart[['age','resting_blood_pressure','cholesterol','st_depression','target','max_heart_rate_achieved']]
 import seaborn as sns
