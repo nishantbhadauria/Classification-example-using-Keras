@@ -4,6 +4,9 @@ Predicting Heart disease using Age, Sex, blood Sugar, blood pressure, cholestero
 Hi All,
 
 I would like you to take you through the one basic example of building neural network using Keras. It uses a dataset of heart diseases which can be downloaded on Kaggle as well. 
+You can have more details of Keras here:
+https://keras.io/
+
 # the dataset
 We have the following columns.
 
